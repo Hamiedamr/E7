@@ -1,0 +1,12 @@
+<ul >
+    <!-- Loop through quotes -->
+    <% for(var i = 0; i < students.length; i++) {%>
+      <li >
+        <!-- Output name from the iterated quote object -->
+        <span><%= students[i].name %></span>:
+        <!-- Output quote from the iterated quote object -->
+        <span><%= students[i].code %></span>
+
+      </li>
+    <% } %>
+  </ul>

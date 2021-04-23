@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<style>
+    input{
+        margin-top: 10px;
+    }
+    #form-container{
+        width: 50%;
+        margin: auto;
+
+    }
+    
+    .form-element{
+        width: 100%;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .form-element label{
+        width: 10%;
+    }
+    .form-element input{
+        width: 90%;
+    }
+    #reg{
+        width: 100%;
+    }
+</style>
+<body>
+    <div id="form-container">
+        <h1>Courses Registeration</h1>
+        <form action="/api/courses/create" method="post">
+            <div class="form-element">
+                <label for="">Name</label>
+                <input type="text" name="name" id="">
+            </div>
+            <div class="form-element">
+            <label for="">Code</label>
+            <input type="text" name="code" id="">
+            </div>
+            <div class="form-element">
+            <label for="">Description</label> 
+            <br>
+            <textarea name="desc" id="" cols="30" rows="10"></textarea>
+            </div>
+                <input type="submit" value="Register" id="reg">
+        </form>
+    </div>
+</body>
+</html>
