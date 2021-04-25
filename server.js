@@ -123,6 +123,9 @@ app.get('/web/students/create',(req,res)=>{
     res.sendFile(__dirname +  '/views/students.html')
 });
 
+app.get('/',(req,res)=>{
+  res.send('<h1>Hello World</h1>');
+})
 
 app.listen(3000,()=>{
     console.log("listening to 3000");
