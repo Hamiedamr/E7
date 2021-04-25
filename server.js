@@ -6,39 +6,55 @@ const connectionString = "mongodb+srv://hamied:123@cluster0.cohdo.mongodb.net/as
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
+function getValueForNextSequence(sequenceOfName,db){
+     var sequenceDoc = db.findAndModify({
+       query:{_id: sequenceOfName },
+        update: {$inc:{sequence_value:1}},
+        new:true
+      });
 
+       return sequenceDoc.sequence_value;
+   }
 MongoClient.connect(connectionString,{ useUnifiedTopology: true}, (err, client) => {
     if (err) return console.error(err)
     console.log('Connected to Database')
     const db = client.db('asu')
     const coursesCollection = db.collection('courses')
     const studentsCollection = db.collection('students')
+    coursesCollection.insert({_id: "item_id" , sequence_value : 0 })
+    studentsCollection.insert({_id: "item_id" , sequence_value : 0 })
+
+    
     //API endpoints
     /**CREATE */
     app.post('/api/courses/create',(req,res)=>{
-        coursesCollection.insertOne(req.body)
+      data = req.body
+        coursesCollection.insertOne(data)
         .then(result => {
             res.json(result.ops[0])
           })
           .catch(error => console.error(error))
+        console.log(data)
     });
     app.post('/api/students/create',(req,res)=>{
-        studentsCollection.insertOne(req.body)
+      data = req.body
+      studentsCollection.insertOne(data)
         .then(result => {
           res.json(result.ops[0])
         })
           .catch(error => console.error(error))
+      console.log(data)
     });
 
     /**READ */
     app.get('/api/courses/',(req,res)=>{
         coursesCollection.find().toArray().then(result=>{
-            res.json(result)
+            res.json(result.ops[0])
         })
     });
     app.get('/api/students/',(req,res)=>{ 
          studentsCollection.find().toArray().then(result=>{
-          res.json(result)
+          res.json(result.ops[0])
          })
 });
 
@@ -55,7 +71,7 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true}, (err, client) 
             {
               upsert: true
             }
-          ).then(result=> res.json(result))
+          ).then(result=> res.json(result.ops[0]))
             .catch(error => console.error(error))
     });
     app.put('/api/students/',(req,res)=>{
@@ -70,7 +86,7 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true}, (err, client) 
             {
               upsert: true
             }
-          ).then(result=> res.json(result))
+          ).then(result=> res.json(result.ops[0]))
           .catch(error => console.error(error))
     });
 
@@ -81,7 +97,7 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true}, (err, client) 
             { code: req.body.code }
           )
             .then(result => {
-              res.json(result)
+              res.json(result.ops[0])
             })
             .catch(error => console.error(error))
     });
@@ -90,7 +106,7 @@ MongoClient.connect(connectionString,{ useUnifiedTopology: true}, (err, client) 
             { code: req.body.code }
           )
             .then(result => {
-              res.json(result)
+              res.json(result.ops[0])
             })
             .catch(error => console.error(error))
     });
